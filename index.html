@@ -1,0 +1,2240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurexion - Elite Digital Agency | Premium Web Development & AI Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200;300;400;600;700;900&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-gold: #d4af37;
+            --accent-silver: #c0c0c0;
+            --accent-blue: #4a90e2;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --shadow-glow: rgba(212, 175, 55, 0.15);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: transform 0.15s ease, opacity 0.3s ease;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.3s cubic-bezier(0.75, -0.5, 0.25, 1.5);
+            opacity: 0.5;
+        }
+
+        .cursor.hover {
+            transform: scale(3);
+            opacity: 0.8;
+        }
+
+        /* Grain Overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0.4;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-image {
+            height: 45px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 20px var(--shadow-glow));
+        }
+
+        nav.scrolled .logo-image {
+            height: 38px;
+        }
+
+        .logo-image:hover {
+            filter: drop-shadow(0 0 30px var(--shadow-glow)) brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            transition: all 0.4s ease;
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .cta-nav {
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            border-radius: 0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .cta-nav:hover {
+            color: var(--bg-primary);
+        }
+
+        .cta-nav:hover::before {
+            left: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 8rem 5% 5rem;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(74, 144, 226, 0.05) 0%, transparent 50%);
+            animation: backgroundPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            font-weight: 200;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .hero h1 .highlight {
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-silver) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.7s forwards;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            border: 1px solid var(--accent-gold);
+            box-shadow: 0 10px 40px var(--shadow-glow);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 60px var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-3px);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            padding: 5rem 5%;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 4rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .stat-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-number {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Section Base */
+        section {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto 5rem;
+            text-align: center;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .section-title .bold {
+            font-weight: 700;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-secondary);
+        }
+
+        .about-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            line-height: 1.3;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .about-stat {
+            padding: 2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+        }
+
+        .about-stat:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+        }
+
+        .about-stat-number {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .about-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-image {
+            position: relative;
+            height: 600px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);
+            opacity: 0.1;
+            transform: translate(-50%, -50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* Services Section */
+        .services-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            border-color: var(--accent-gold);
+            transform: rotate(360deg);
+        }
+
+        .service-card h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            padding: 0.8rem 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .service-features li:last-child {
+            border-bottom: none;
+        }
+
+        .service-features li::before {
+            content: '→';
+            color: var(--accent-gold);
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-features li::before {
+            transform: translateX(5px);
+        }
+
+        /* Process Section */
+        .process {
+            background: var(--bg-secondary);
+        }
+
+        .process-timeline {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+            transform: translateX(-50%);
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 6rem;
+            position: relative;
+        }
+
+        .process-step:nth-child(even) .process-content {
+            grid-column: 2;
+        }
+
+        .process-step:nth-child(even) .process-number {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .process-number {
+            text-align: center;
+            position: relative;
+        }
+
+        .process-number span {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 2px solid var(--accent-gold);
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            position: relative;
+            z-index: 2;
+        }
+
+        .process-content {
+            padding: 2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+        }
+
+        .process-content:hover {
+            border-color: var(--accent-gold);
+            transform: translateX(10px);
+        }
+
+        .process-step:nth-child(even) .process-content:hover {
+            transform: translateX(-10px);
+        }
+
+        .process-content h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .process-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            padding: 8rem 5%;
+        }
+
+        .tech-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+        }
+
+        .tech-item {
+            aspect-ratio: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: all 0.4s ease;
+            padding: 2rem;
+        }
+
+        .tech-item:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--accent-gold);
+            transform: translateY(-10px) rotate(5deg);
+        }
+
+        .tech-item svg {
+            width: 50px;
+            height: 50px;
+            fill: var(--text-primary);
+        }
+
+        .tech-name {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: var(--bg-secondary);
+        }
+
+        .pricing-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent-gold);
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px var(--shadow-glow);
+        }
+
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            padding: 1rem;
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-gold);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .plan-name {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card.featured .plan-name {
+            margin-top: 3rem;
+        }
+
+        .plan-price {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            padding: 1rem 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: var(--accent-gold);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 8rem 5%;
+        }
+
+        .testimonials-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-family: 'Crimson Pro', serif;
+            font-size: 8rem;
+            color: var(--accent-gold);
+            opacity: 0.1;
+            line-height: 1;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .testimonial-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-silver) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--bg-primary);
+            flex-shrink: 0;
+        }
+
+        .testimonial-info h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 0.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .star {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+            font-size: 1.05rem;
+        }
+
+        .testimonial-company {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--accent-gold);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--bg-secondary);
+            padding: 8rem 5%;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+        }
+
+        .contact-info h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+        }
+
+        .contact-item:hover {
+            border-color: var(--accent-gold);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item-text span {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .contact-item-text strong {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .contact-form-container {
+            background: var(--bg-tertiary);
+            padding: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px var(--shadow-glow);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-primary);
+            padding: 5rem 5% 3rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand img {
+            height: 50px;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 20px var(--shadow-glow));
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.4s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+        }
+
+        .footer-section h4 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+            padding-left: 10px;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold) 0%, var(--accent-silver) 100%);
+            z-index: 10001;
+            transition: width 0.1s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .about-content,
+            .contact-container,
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .process-timeline::before {
+                left: 30px;
+            }
+
+            .process-step {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .process-step:nth-child(even) .process-content,
+            .process-step:nth-child(even) .process-number {
+                grid-column: 1;
+                grid-row: auto;
+            }
+
+            .process-number {
+                text-align: left;
+                padding-left: 0;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+
+        /* Fade in animation for elements */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Grain Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="logo-container">
+            <img src="aurexion-logo-1.webp" alt="Aurexion" class="logo-image">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact" class="cta-nav">Get Started</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <span class="hero-label">Elite Digital Solutions</span>
+            <h1>Crafting <span class="highlight">Exceptional</span> Digital Experiences</h1>
+            <p class="hero-subtitle">We transform ambitious businesses into digital powerhouses through bespoke websites, intelligent automation, and AI-driven solutions that deliver measurable results.</p>
+            <div class="hero-cta-group">
+                <a href="#contact" class="btn btn-primary">Start Your Project</a>
+                <a href="#services" class="btn btn-secondary">Explore Our Work</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="stats-grid">
+            <div class="stat-item fade-in">
+                <span class="stat-number" data-count="250">0</span>
+                <span class="stat-label">Projects Completed</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number" data-count="99">0</span>
+                <span class="stat-label">Client Satisfaction %</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number" data-count="50">0</span>
+                <span class="stat-label">Industry Awards</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number" data-count="24">0</span>
+                <span class="stat-label">Hour Support</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number" data-count="15">0</span>
+                <span class="stat-label">Countries Served</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-header">
+            <span class="section-label">Who We Are</span>
+            <h2 class="section-title">Redefining <span class="bold">Digital Excellence</span></h2>
+            <p class="section-description">A team of visionaries, engineers, and designers dedicated to pushing the boundaries of what's possible in the digital realm.</p>
+        </div>
+        <div class="about-content fade-in">
+            <div class="about-text">
+                <h3>Building Tomorrow's Digital Landscape, Today</h3>
+                <p>Founded with a singular vision to revolutionize how businesses interact with technology, Aurexion has emerged as India's premier digital agency. We don't just build websites; we architect digital ecosystems that drive growth, engagement, and innovation.</p>
+                <p>Our multidisciplinary team combines cutting-edge technical expertise with creative brilliance, delivering solutions that are not only functional but extraordinary. From Fortune 500 companies to ambitious startups, we've partnered with visionary leaders who refuse to settle for ordinary.</p>
+                <p>Every project we undertake is a testament to our commitment to excellence, innovation, and client success. We leverage the latest technologies, emerging trends, and proven methodologies to create digital experiences that resonate, convert, and endure.</p>
+                <div class="about-stats">
+                    <div class="about-stat fade-in">
+                        <div class="about-stat-number">7+</div>
+                        <div class="about-stat-label">Years Experience</div>
+                    </div>
+                    <div class="about-stat fade-in">
+                        <div class="about-stat-number">120+</div>
+                        <div class="about-stat-label">Team Members</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image fade-in">
+                <img src="aurexion-logo-2.png" alt="Aurexion" style="max-width: 80%; filter: drop-shadow(0 0 40px var(--shadow-glow));">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <span class="section-label">Our Expertise</span>
+            <h2 class="section-title">Comprehensive <span class="bold">Digital Solutions</span></h2>
+            <p class="section-description">From concept to execution, we deliver end-to-end services that transform your digital presence and accelerate business growth.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <div class="service-icon">◆</div>
+                <h3>Custom Web Development</h3>
+                <p>Bespoke websites engineered for performance, scalability, and conversion. We create digital experiences that captivate audiences and drive measurable business outcomes.</p>
+                <ul class="service-features">
+                    <li>Responsive & Mobile-First Design</li>
+                    <li>Advanced SEO Architecture</li>
+                    <li>Progressive Web Apps (PWA)</li>
+                    <li>Headless CMS Integration</li>
+                    <li>E-commerce Platforms</li>
+                    <li>Performance Optimization</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">◆</div>
+                <h3>AI Chatbot Solutions</h3>
+                <p>Intelligent conversational interfaces powered by advanced AI and natural language processing. Transform customer engagement with 24/7 automated support that feels human.</p>
+                <ul class="service-features">
+                    <li>Natural Language Understanding</li>
+                    <li>Multi-Channel Deployment</li>
+                    <li>Lead Qualification & Nurturing</li>
+                    <li>Customer Support Automation</li>
+                    <li>Analytics & Insights Dashboard</li>
+                    <li>Continuous Learning & Improvement</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">◆</div>
+                <h3>Business Automation</h3>
+                <p>Streamline operations, eliminate inefficiencies, and unlock growth with custom automation solutions that integrate seamlessly with your existing infrastructure.</p>
+                <ul class="service-features">
+                    <li>Workflow Automation</li>
+                    <li>CRM & ERP Integration</li>
+                    <li>Marketing Automation</li>
+                    <li>Data Processing & Analytics</li>
+                    <li>API Development & Integration</li>
+                    <li>Process Optimization Consulting</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">◆</div>
+                <h3>Mobile Application Development</h3>
+                <p>Native and cross-platform mobile applications that deliver exceptional user experiences across iOS and Android ecosystems.</p>
+                <ul class="service-features">
+                    <li>iOS & Android Native Apps</li>
+                    <li>React Native & Flutter</li>
+                    <li>App Store Optimization</li>
+                    <li>Push Notification Systems</li>
+                    <li>Offline-First Architecture</li>
+                    <li>Backend API Development</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">◆</div>
+                <h3>UI/UX Design</h3>
+                <p>Human-centered design that prioritizes usability, accessibility, and aesthetic excellence. We create interfaces that users love and remember.</p>
+                <ul class="service-features">
+                    <li>User Research & Testing</li>
+                    <li>Information Architecture</li>
+                    <li>Wireframing & Prototyping</li>
+                    <li>Visual Design & Branding</li>
+                    <li>Design System Development</li>
+                    <li>Accessibility Compliance (WCAG)</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">◆</div>
+                <h3>Digital Marketing & SEO</h3>
+                <p>Data-driven marketing strategies that amplify your brand, drive qualified traffic, and maximize ROI across all digital channels.</p>
+                <ul class="service-features">
+                    <li>Technical & On-Page SEO</li>
+                    <li>Content Marketing Strategy</li>
+                    <li>Social Media Management</li>
+                    <li>PPC & Paid Advertising</li>
+                    <li>Email Marketing Campaigns</li>
+                    <li>Conversion Rate Optimization</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">◆</div>
+                <h3>Cloud Solutions & DevOps</h3>
+                <p>Scalable cloud infrastructure and DevOps practices that ensure reliability, security, and optimal performance for your digital assets.</p>
+                <ul class="service-features">
+                    <li>AWS, Azure, GCP Deployment</li>
+                    <li>CI/CD Pipeline Setup</li>
+                    <li>Container Orchestration</li>
+                    <li>Infrastructure as Code</li>
+                    <li>Security & Compliance</li>
+                    <li>Monitoring & Performance Tuning</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">◆</div>
+                <h3>Enterprise Solutions</h3>
+                <p>Large-scale digital transformation projects for enterprise organizations requiring sophisticated, mission-critical systems.</p>
+                <ul class="service-features">
+                    <li>Custom Enterprise Software</li>
+                    <li>System Integration</li>
+                    <li>Legacy System Modernization</li>
+                    <li>Data Migration & Management</li>
+                    <li>Dedicated Support Teams</li>
+                    <li>Scalability Planning</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="section-header">
+            <span class="section-label">Our Methodology</span>
+            <h2 class="section-title">A Proven <span class="bold">Process</span></h2>
+            <p class="section-description">Our systematic approach ensures every project exceeds expectations, delivered on time and within budget.</p>
+        </div>
+        <div class="process-timeline">
+            <div class="process-step fade-in">
+                <div class="process-number">
+                    <span>01</span>
+                </div>
+                <div class="process-content">
+                    <h3>Discovery & Strategy</h3>
+                    <p>We begin by understanding your business objectives, target audience, and competitive landscape. Through comprehensive research and stakeholder interviews, we develop a strategic roadmap aligned with your goals.</p>
+                </div>
+            </div>
+
+            <div class="process-step fade-in">
+                <div class="process-number">
+                    <span>02</span>
+                </div>
+                <div class="process-content">
+                    <h3>Design & Prototyping</h3>
+                    <p>Our design team creates intuitive, visually striking interfaces backed by user research and best practices. We develop interactive prototypes for validation before moving to development.</p>
+                </div>
+            </div>
+
+            <div class="process-step fade-in">
+                <div class="process-number">
+                    <span>03</span>
+                </div>
+                <div class="process-content">
+                    <h3>Development & Engineering</h3>
+                    <p>Our engineers build robust, scalable solutions using cutting-edge technologies and industry best practices. We follow agile methodologies with regular sprints and continuous integration.</p>
+                </div>
+            </div>
+
+            <div class="process-step fade-in">
+                <div class="process-number">
+                    <span>04</span>
+                </div>
+                <div class="process-content">
+                    <h3>Testing & Quality Assurance</h3>
+                    <p>Rigorous testing across devices, browsers, and scenarios ensures flawless performance. We conduct security audits, performance optimization, and user acceptance testing.</p>
+                </div>
+            </div>
+
+            <div class="process-step fade-in">
+                <div class="process-number">
+                    <span>05</span>
+                </div>
+                <div class="process-content">
+                    <h3>Launch & Deployment</h3>
+                    <p>Carefully orchestrated deployment with minimal disruption. We handle all technical aspects including DNS configuration, SSL certificates, and performance monitoring.</p>
+                </div>
+            </div>
+
+            <div class="process-step fade-in">
+                <div class="process-number">
+                    <span>06</span>
+                </div>
+                <div class="process-content">
+                    <h3>Support & Optimization</h3>
+                    <p>Ongoing support, monitoring, and continuous optimization ensure long-term success. We provide training, documentation, and regular performance reviews.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-stack">
+        <div class="section-header">
+            <span class="section-label">Technologies</span>
+            <h2 class="section-title">Our <span class="bold">Tech Arsenal</span></h2>
+            <p class="section-description">We leverage the most advanced technologies and frameworks to build future-proof digital solutions.</p>
+        </div>
+        <div class="tech-grid">
+            <div class="tech-item fade-in">
+                <div class="tech-name">React</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Next.js</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Node.js</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Python</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">TypeScript</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">GraphQL</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">AWS</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Docker</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Kubernetes</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">MongoDB</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">PostgreSQL</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Redis</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">TensorFlow</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Firebase</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Stripe</div>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-name">Tailwind</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <span class="section-label">Investment</span>
+            <h2 class="section-title">Transparent <span class="bold">Pricing</span></h2>
+            <p class="section-description">Flexible packages designed to meet the unique needs of businesses at every stage of growth.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card fade-in">
+                <div class="plan-name">Startup</div>
+                <div class="plan-price">₹75,000<span> / project</span></div>
+                <div class="plan-description">Perfect for new businesses and startups looking to establish their digital presence.</div>
+                <ul class="plan-features">
+                    <li>Up to 8 Custom Pages</li>
+                    <li>Responsive Design</li>
+                    <li>SEO Foundation Setup</li>
+                    <li>Contact Form Integration</li>
+                    <li>Google Analytics Setup</li>
+                    <li>Social Media Integration</li>
+                    <li>Content Management System</li>
+                    <li>2 Months Support</li>
+                    <li>Performance Optimization</li>
+                    <li>SSL Certificate</li>
+                </ul>
+                <a href="#contact" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: 2rem;">Get Started</a>
+            </div>
+
+            <div class="pricing-card featured fade-in">
+                <div class="plan-name">Professional</div>
+                <div class="plan-price">₹2,25,000<span> / project</span></div>
+                <div class="plan-description">Comprehensive solution for growing businesses ready to scale their digital operations.</div>
+                <ul class="plan-features">
+                    <li>Up to 20 Custom Pages</li>
+                    <li>Advanced UI/UX Design</li>
+                    <li>AI Chatbot Integration</li>
+                    <li>Advanced SEO Strategy</li>
+                    <li>CMS with Training</li>
+                    <li>E-commerce (Up to 50 Products)</li>
+                    <li>Marketing Automation Setup</li>
+                    <li>6 Months Premium Support</li>
+                    <li>Performance & Security Audits</li>
+                    <li>Custom API Integrations</li>
+                    <li>Email Marketing Setup</li>
+                    <li>Social Media Strategy</li>
+                </ul>
+                <a href="#contact" class="btn btn-primary" style="width: 100%; text-align: center; margin-top: 2rem;">Get Started</a>
+            </div>
+
+            <div class="pricing-card fade-in">
+                <div class="plan-name">Enterprise</div>
+                <div class="plan-price">₹6,50,000<span> / project</span></div>
+                <div class="plan-description">Complete digital transformation for established enterprises requiring advanced solutions.</div>
+                <ul class="plan-features">
+                    <li>Unlimited Pages & Features</li>
+                    <li>Custom Design System</li>
+                    <li>Advanced AI & Automation</li>
+                    <li>Mobile App Development</li>
+                    <li>Headless CMS Architecture</li>
+                    <li>Advanced E-commerce Platform</li>
+                    <li>Cloud Infrastructure Setup</li>
+                    <li>12 Months Priority Support</li>
+                    <li>Dedicated Account Manager</li>
+                    <li>Custom Integrations Unlimited</li>
+                    <li>Security & Compliance Review</li>
+                    <li>Performance SLA Guarantee</li>
+                    <li>Team Training Sessions</li>
+                    <li>Quarterly Strategy Reviews</li>
+                </ul>
+                <a href="#contact" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: 2rem;">Get Started</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 5rem;">
+            <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem;">Need a custom solution tailored to your unique requirements?</p>
+            <a href="#contact" class="btn btn-primary">Request Custom Proposal</a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header">
+            <span class="section-label">Client Success Stories</span>
+            <h2 class="section-title">What Our <span class="bold">Clients Say</span></h2>
+            <p class="section-description">Real experiences from businesses we've helped transform and scale through exceptional digital solutions.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">RK</div>
+                    <div class="testimonial-info">
+                        <h4>Rajesh Kumar</h4>
+                        <p class="testimonial-role">CEO & Founder</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">Aurexion completely transformed our digital presence. Their team delivered a stunning e-commerce platform that not only looks incredible but has driven a 340% increase in online sales within the first six months. The attention to detail, technical expertise, and commitment to our success exceeded all expectations. What impressed me most was their ability to understand our business deeply and translate that into a digital experience that truly resonates with our customers.</p>
+                <div class="testimonial-company">TechVenture Solutions</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">PS</div>
+                    <div class="testimonial-info">
+                        <h4>Priya Sharma</h4>
+                        <p class="testimonial-role">Chief Marketing Officer</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">Working with Aurexion was a game-changer for our marketing operations. The marketing automation platform they developed has reduced our team's manual workload by 65% while simultaneously improving campaign performance. The AI chatbot integration handles customer inquiries 24/7 with remarkable accuracy, freeing our team to focus on strategic initiatives. Their expertise in both technology and marketing strategy is truly exceptional. I would recommend them without hesitation.</p>
+                <div class="testimonial-company">Digital Dynamics India</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">AM</div>
+                    <div class="testimonial-info">
+                        <h4>Amit Mehta</h4>
+                        <p class="testimonial-role">Director of Operations</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">The custom business automation solution Aurexion built for us has revolutionized how we operate. What used to take our team hours now happens automatically in minutes. The ROI was evident within the first quarter, with operational costs down 45% and productivity up significantly. Their team took time to understand our complex workflows and delivered a solution that integrated seamlessly with our existing systems. Outstanding technical capability combined with exceptional client service.</p>
+                <div class="testimonial-company">Enterprise Logistics Group</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">SG</div>
+                    <div class="testimonial-info">
+                        <h4>Sneha Gupta</h4>
+                        <p class="testimonial-role">Founder & Creative Director</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">As a design-focused company, we needed a website that truly represented our brand and aesthetic. Aurexion delivered beyond our wildest expectations. The site is not just beautiful, it's a work of art that perfectly captures our ethos while being incredibly functional. Our client inquiries have tripled, and the quality of leads has improved dramatically. The technical team's ability to bring our creative vision to life while ensuring top-tier performance was remarkable. This partnership has elevated our entire business.</p>
+                <div class="testimonial-company">Creative Studio Elite</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">VT</div>
+                    <div class="testimonial-info">
+                        <h4>Vikram Thakur</h4>
+                        <p class="testimonial-role">Co-Founder & CTO</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">Aurexion developed our mobile application from concept to launch, and the results speak for themselves. We now have over 500,000 active users with a 4.8 star rating across both iOS and Android platforms. The app's performance is exceptional, the UI is intuitive, and the backend infrastructure they built scales effortlessly. What sets them apart is their proactive approach to problem-solving and their deep technical knowledge. They're not just developers, they're true technology partners invested in our success.</p>
+                <div class="testimonial-company">HealthConnect App</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">NK</div>
+                    <div class="testimonial-info">
+                        <h4>Neha Kapoor</h4>
+                        <p class="testimonial-role">Managing Director</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">We engaged Aurexion for a complete digital transformation, and they delivered spectacularly. The new website, CRM integration, and marketing automation suite have unified our operations in ways we never thought possible. Customer engagement is up 280%, and our sales team's efficiency has improved by over 50%. The project was delivered on time, within budget, and with exceptional attention to our specific needs. Their ongoing support has been equally impressive. A truly world-class partner.</p>
+                <div class="testimonial-company">Prestige Interiors</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">AD</div>
+                    <div class="testimonial-info">
+                        <h4>Arjun Desai</h4>
+                        <p class="testimonial-role">VP of Digital Strategy</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">After struggling with our previous development team, finding Aurexion was a revelation. They took over a complex, half-finished project and not only completed it but elevated it to a level we hadn't imagined possible. Their technical expertise, project management skills, and ability to communicate clearly throughout the process made all the difference. The platform they built has become the backbone of our operations, handling thousands of transactions daily without a hiccup. Exceptional work.</p>
+                <div class="testimonial-company">FinTech Innovations Ltd</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">MR</div>
+                    <div class="testimonial-info">
+                        <h4>Meera Reddy</h4>
+                        <p class="testimonial-role">Head of E-Learning</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">Aurexion built our comprehensive e-learning platform, and it has transformed how we deliver education to thousands of students. The platform is robust, scalable, and incredibly user-friendly. They incorporated advanced features like AI-powered personalized learning paths, real-time analytics, and seamless payment integration. The feedback from students and educators has been overwhelmingly positive. Their understanding of both technology and education made them the perfect partner for this project. We couldn't be happier.</p>
+                <div class="testimonial-company">EduTech Academy</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">KS</div>
+                    <div class="testimonial-info">
+                        <h4>Karan Singh</h4>
+                        <p class="testimonial-role">Owner & CEO</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">The restaurant management system Aurexion developed has streamlined every aspect of our operations across all twelve locations. From inventory management to staff scheduling, customer ordering to analytics, everything is now centralized and efficient. We've seen a 30% reduction in food waste and a significant improvement in customer satisfaction scores. The mobile app for customers has been particularly successful, with online orders now representing 40% of our business. Brilliant solution, brilliant team.</p>
+                <div class="testimonial-company">Urban Eats Restaurant Chain</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">DM</div>
+                    <div class="testimonial-info">
+                        <h4>Divya Malhotra</h4>
+                        <p class="testimonial-role">Chief Product Officer</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">Aurexion helped us reimagine our entire product experience from the ground up. Their UX research was thorough, their design thinking innovative, and their execution flawless. The redesigned interface has reduced customer support tickets by 60% while increasing user engagement metrics across the board. Their team worked collaboratively with ours, incorporating feedback and iterating quickly. The level of professionalism and expertise they brought to the table was truly impressive. Highly recommended for any serious digital project.</p>
+                <div class="testimonial-company">CloudSync Technologies</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">RP</div>
+                    <div class="testimonial-info">
+                        <h4>Rohan Patel</h4>
+                        <p class="testimonial-role">Founder</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">As a startup, we needed a development partner who could move fast without compromising quality. Aurexion was that partner. They delivered our MVP in record time, and it was production-ready from day one. The architecture they designed has allowed us to scale rapidly as we've grown. We've since engaged them for multiple additional projects, and each time they've exceeded expectations. Their combination of technical skill, business acumen, and genuine partnership mentality makes them invaluable to our growth story.</p>
+                <div class="testimonial-company">GrowthLab Startup</div>
+            </div>
+
+            <div class="testimonial-card fade-in">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">ST</div>
+                    <div class="testimonial-info">
+                        <h4>Sanjay Tripathi</h4>
+                        <p class="testimonial-role">Director of IT</p>
+                    </div>
+                </div>
+                <div class="testimonial-rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="testimonial-text">We needed to migrate our legacy systems to modern cloud infrastructure, and Aurexion made what could have been a nightmare into a smooth, well-orchestrated transition. Zero downtime during migration, comprehensive training for our team, and ongoing support that's been exceptional. The new system is faster, more secure, and costs us significantly less to operate. Their DevOps expertise and strategic thinking around our infrastructure needs have been invaluable. A team you can trust with your most critical systems.</p>
+                <div class="testimonial-company">Manufacturing Solutions Inc</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <span class="section-label">Get In Touch</span>
+            <h2 class="section-title">Let's Build Something <span class="bold">Extraordinary</span></h2>
+            <p class="section-description">Ready to transform your digital presence? Our team is here to discuss your vision and chart the path to success.</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info fade-in">
+                <h3>Start Your Digital Journey</h3>
+                <p>Whether you're a startup with a bold vision or an established enterprise seeking transformation, we're here to help you succeed. Reach out today for a consultation.</p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">@</div>
+                        <div class="contact-item-text">
+                            <span>Email</span>
+                            <strong>hello@aurexion.in</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-item-text">
+                            <span>Phone</span>
+                            <strong>+91 98765 43210</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-item-text">
+                            <span>Location</span>
+                            <strong>Mumbai, Maharashtra, India</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🌐</div>
+                        <div class="contact-item-text">
+                            <span>Instagram</span>
+                            <strong>@aurexion.in</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-container fade-in">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Service of Interest</label>
+                        <select id="service" name="service" required>
+                            <option value="">Select a service</option>
+                            <option value="web">Web Development</option>
+                            <option value="mobile">Mobile App Development</option>
+                            <option value="chatbot">AI Chatbot Solutions</option>
+                            <option value="automation">Business Automation</option>
+                            <option value="uiux">UI/UX Design</option>
+                            <option value="marketing">Digital Marketing</option>
+                            <option value="enterprise">Enterprise Solutions</option>
+                            <option value="consulting">Consulting</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="budget">Project Budget (INR)</label>
+                        <select id="budget" name="budget" required>
+                            <option value="">Select budget range</option>
+                            <option value="50k-1L">₹50,000 - ₹1,00,000</option>
+                            <option value="1L-3L">₹1,00,000 - ₹3,00,000</option>
+                            <option value="3L-5L">₹3,00,000 - ₹5,00,000</option>
+                            <option value="5L+">₹5,00,000+</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Project Details</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; text-align: center;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="aurexion-logo-2.png" alt="Aurexion">
+                <p>Transforming ambitious businesses into digital powerhouses through innovation, expertise, and unwavering commitment to excellence.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/aurexion.in" target="_blank" class="social-link" aria-label="Instagram">IG</a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">IN</a>
+                    <a href="#" class="social-link" aria-label="Twitter">TW</a>
+                    <a href="#" class="social-link" aria-label="Facebook">FB</a>
+                    <a href="#" class="social-link" aria-label="GitHub">GH</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul class="footer-links">
+                    <li><a href="#services">Web Development</a></li>
+                    <li><a href="#services">Mobile Apps</a></li>
+                    <li><a href="#services">AI Chatbots</a></li>
+                    <li><a href="#services">Automation</a></li>
+                    <li><a href="#services">UI/UX Design</a></li>
+                    <li><a href="#services">Digital Marketing</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#process">Our Process</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:hello@aurexion.in">hello@aurexion.in</a></li>
+                    <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+                    <li><a href="#">Mumbai, India</a></li>
+                    <li><a href="https://instagram.com/aurexion.in" target="_blank">@aurexion.in</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aurexion. All rights reserved.</p>
+            <p>Designed & Developed with Excellence</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animateCursor() {
+            let distX = mouseX - cursorX;
+            let distY = mouseY - cursorY;
+            
+            cursorX += distX * 0.3;
+            cursorY += distY * 0.3;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            let followerDistX = mouseX - followerX;
+            let followerDistY = mouseY - followerY;
+            
+            followerX += followerDistX * 0.1;
+            followerY += followerDistY * 0.1;
+            
+            cursorFollower.style.left = (followerX - 20) + 'px';
+            cursorFollower.style.top = (followerY - 20) + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        
+        animateCursor();
+        
+        // Cursor hover effect
+        const hoverElements = document.querySelectorAll('a, button, .service-card, .pricing-card, .testimonial-card');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            document.querySelector('.scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Fade in on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Counter animation
+        const animateCounter = (element) => {
+            const target = parseInt(element.getAttribute('data-count'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += step;
+                if (current < target) {
+                    element.textContent = Math.floor(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target;
+                }
+            };
+            
+            updateCounter();
+        };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target.querySelector('.stat-number');
+                    if (counter && !counter.classList.contains('counted')) {
+                        counter.classList.add('counted');
+                        animateCounter(counter);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-item').forEach(el => counterObserver.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your inquiry! Our team will contact you within 24 hours.');
+            e.target.reset();
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const heroBackground = document.querySelector('.hero-background');
+            if (heroBackground) {
+                heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
